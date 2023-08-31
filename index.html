@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .converter {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .input,
+    .output {
+        margin: 10px 0;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .input-options,
+    .output-options {
+        margin-top: 5px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+</style>
+
+<body>
+    <div class="converter">
+        <h1>Temperature Converter</h1>
+        <div class="input">
+            <label for="inputTemp">Input Temperature:</label>
+            <input type="number" id="inputTemp" placeholder="Enter temperature" step="any">
+            <div class="input-options">
+                <input type="radio" name="inputUnit" value="Celsius" checked> Celsius
+                <input type="radio" name="inputUnit" value="Fahrenheit"> Fahrenheit
+                <input type="radio" name="inputUnit" value="Kelvin"> Kelvin
+            </div>
+        </div>
+        <div class="output">
+            <label for="outputTemp">Converted Temperature:</label>
+            <input type="text" id="outputTemp" readonly>
+            <div class="output-options">
+                <input type="radio" name="outputUnit" value="Celsius" checked> Celsius
+                <input type="radio" name="outputUnit" value="Fahrenheit"> Fahrenheit
+                <input type="radio" name="outputUnit" value="Kelvin"> Kelvin
+            </div>
+        </div>
+        <button id="convertBtn">Convert</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const convertBtn = document.getElementById("convertBtn");
+
+            convertBtn.addEventListener("click", function () {
+                const inputTemp = parseFloat(document.getElementById("inputTemp").value);
+                const inputUnit = document.querySelector('input[name="inputUnit"]:checked').value;
+                const outputUnit = document.querySelector('input[name="outputUnit"]:checked').value;
+                let convertedTemp;
+
+                if (inputUnit === outputUnit) {
+                    convertedTemp = inputTemp;
+                } else if (inputUnit === "Celsius") {
+                    if (outputUnit === "Fahrenheit") {
+                        convertedTemp = (inputTemp * 9 / 5) + 32;
+                    } else if (outputUnit === "Kelvin") {
+                        convertedTemp = inputTemp + 273.15;
+                    }
+                } else if (inputUnit === "Fahrenheit") {
+                    if (outputUnit === "Celsius") {
+                        convertedTemp = (inputTemp - 32) * 5 / 9;
+                    } else if (outputUnit === "Kelvin") {
+                        convertedTemp = (inputTemp - 32) * 5 / 9 + 273.15;
+                    }
+                } else if (inputUnit === "Kelvin") {
+                    if (outputUnit === "Celsius") {
+                        convertedTemp = inputTemp - 273.15;
+                    } else if (outputUnit === "Fahrenheit") {
+                        convertedTemp = (inputTemp - 273.15) * 9 / 5 + 32;
+                    }
+                }
+
+                document.getElementById("outputTemp").value = convertedTemp.toFixed(2);
+            });
+        });
+
+    </script>
+</body>
+
+</html>
